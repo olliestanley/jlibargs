@@ -4,7 +4,10 @@ import pw.ollie.args.params.Parameter;
 import pw.ollie.args.params.Params;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * A simple and easy to use method of parsing arguments into different primitive
@@ -12,7 +15,7 @@ import java.util.List;
  */
 public class Arguments {
     /**
-     * A List of all of the arguments in StringWrapper form.
+     * A {@link List} of all of the arguments in StringWrapper form.
      */
     private final List<StringWrapper> all;
     /**
@@ -20,40 +23,40 @@ public class Arguments {
      */
     private final List<StringWrapper> arguments;
     /**
-     * A List of all flags prefixed with -
+     * A {@link List} of all flags prefixed with -
      */
-    private final List<Flag> flags;
+    private final Set<Flag> flags;
     /**
-     * A List of all flags prefixed with --
+     * A {@link List} of all flags prefixed with --
      */
-    private final List<Flag> doubleFlags;
+    private final Set<Flag> doubleFlags;
     /**
      * The raw String[] of arguments for this Arguments object.
      */
     private final String[] raw;
 
     /**
-     * The Params object for this Arguments object. This contains a Map of
-     * parameter names to ParamStringWrapper values for each registered parameter
-     * for the command.
+     * The {@link Params} object for this Arguments object. This contains a
+     * {@link Map} of parameter names to ParamStringWrapper values for each
+     * registered parameter for the command.
      */
     private Params parameters;
 
     /**
      * Creates a new Arguments object and immediately parses the given String[]
-     * of arguments into StringWrappers and Flags.
+     * of arguments into {@link StringWrapper}s and {@link Flag}s.
      *
      * @param parse the String[] of raw arguments to parse
      */
     public Arguments(String... parse) {
         this.all = new ArrayList<>();
         this.arguments = new ArrayList<>();
-        this.flags = new ArrayList<>();
-        this.doubleFlags = new ArrayList<>();
+        this.flags = new HashSet<>();
+        this.doubleFlags = new HashSet<>();
 
         raw = parse;
         for (int i = 0; i < raw.length; i++) {
-            final String arg = raw[i];
+            String arg = raw[i];
             all.add(new StringWrapper(arg));
 
             switch (arg.charAt(0)) {
@@ -89,7 +92,7 @@ public class Arguments {
     }
 
     /**
-     * Gets the StringWrapper for the argument at the given index
+     * Gets the {@link StringWrapper} for the argument at the given index.
      *
      * @param index the index to get the argument from
      * @return a StringWrapper object for the argument at the given index
@@ -99,7 +102,7 @@ public class Arguments {
     }
 
     /**
-     * Gets the StringWrapper for the argument at the given index.
+     * Gets the {@link StringWrapper} for the argument at the given index.
      *
      * @param index the index to get the argument from
      * @param includeFlagArgs whether to include flag args in the index
@@ -135,7 +138,7 @@ public class Arguments {
     }
 
     /**
-     * Gets the Params for this set of Arguments.
+     * Gets the {@link Params} for this set of Arguments. May be {@code null}.
      *
      * @return this Arguments object's Params object
      */
@@ -144,21 +147,22 @@ public class Arguments {
     }
 
     /**
-     * Checks whether Params are available for these Arguments.
+     * Checks whether {@link Params} are available for these Arguments.
      *
-     * @return true if this Arguments object has a Params object, else false
+     * @return {@code true} if this Arguments object has a Params object, else
+     *         {@code false}
      */
     public boolean hasParams() {
         return getParams() != null;
     }
 
     /**
-     * Gets a Parameter value for the parameter with the given name, if
-     * there is a Params object available for these Arguments and said Params
-     * object contains a value for the given parameter. If either of these
-     * conditions are not true, null is returned.
+     * Gets a {@link Parameter} value for the parameter with the given name, if
+     * there is a {@link Params} object available for these Arguments and said
+     * {@link Params} object contains a value for the given parameter. If either
+     * of these conditions are not {@code true}, {@code null} is returned.
      *
-     * @param parameter the parameter to get the ParamStringWrapper value for
+     * @param parameter the parameter to get the Parameter value for
      * @return a Parameter for the given parameter, or null if there isn't one
      */
     public Parameter param(String parameter) {
@@ -170,9 +174,9 @@ public class Arguments {
 
     /**
      * Gets the raw string value for the parameter with the given name, if there
-     * is a Params object available for these Arguments and said Params object
-     * contains a value for the given parameter. If either of these conditions
-     * are not true, null is returned
+     * is a {@link Params} object available for these Arguments and said Params
+     * object contains a value for the given parameter. If either of these
+     * conditions are not {@code true}, {@code null} is returned.
      *
      * @param parameter the parameter to get the raw string value for
      * @return a string value for the given parameter, or null if there isn't
@@ -187,8 +191,8 @@ public class Arguments {
     }
 
     /**
-     * Checks whether the given parameter is available in this Arguments' Params
-     * object.
+     * Checks whether the given parameter is available in this Arguments' {@link
+     * Params} object.
      *
      * @param parameter the parameter to check for the presence of
      * @return whether the given parameter is available
@@ -198,11 +202,12 @@ public class Arguments {
     }
 
     /**
-     * Gets the Flag object with the given name, or null if it doesn't exist.
+     * Gets the {@link Flag} object with the given name, or {@code null} if it
+     * doesn't exist.
      *
-     * @param flag the name of the flag to get the Flag object for
-     * @return the Flag object for the flag with the given name - null if there
-     *         isn't one
+     * @param flag the name of the flag to get the {@link Flag} object for
+     * @return the {@link Flag} object for the flag with the given name - {@code
+     *         null} if there isn't one
      */
     public Flag getValueFlag(String flag) {
         for (Flag f : flags) {
@@ -235,7 +240,7 @@ public class Arguments {
      *
      * @param flag the name of the flag to check for
      * @return whether these arguments contain a non-value flag with the given
-     * name
+     *         name
      */
     public boolean hasNonValueFlag(String flag) {
         for (Flag f : doubleFlags) {
@@ -281,12 +286,12 @@ public class Arguments {
     }
 
     /**
-     * Sets the Params object for this Arguments object. Should only be called
-     * directly after creation. If this is called multiple times an
-     * IllegalStateException will be thrown
+     * Sets the {@link Params} object for this Arguments object. Should only be
+     * called directly after creation. If this is called multiple times an
+     * {@link IllegalStateException} will be thrown.
      *
-     * @param parameters the Params to set for this Arguments object
-     * @return this Arguments object
+     * @param parameters the {@link Params} to set for this Arguments object
+     * @return this {@link Arguments} object
      */
     public Arguments withParams(Params parameters) {
         if (this.parameters != null) {

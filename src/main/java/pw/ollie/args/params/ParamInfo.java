@@ -1,11 +1,11 @@
 package pw.ollie.args.params;
 
 /**
- * Represents a parameter, which can be required or optional.
+ * Contains information about a parameter, which can be required or optional.
  */
 public class ParamInfo {
     /**
-     * The name of this parameter.
+     * The name of the parameter.
      */
     private final String name;
     /**
@@ -14,10 +14,10 @@ public class ParamInfo {
     private final boolean optional;
 
     /**
-     * Constructs a new Parameter with the given name
+     * Constructs a new {@link ParamInfo} with the given name.
      *
-     * @param name the name of this Parameter
-     * @param optional whether this parameter is optional
+     * @param name the name of the parameter
+     * @param optional whether the parameter is optional
      */
     public ParamInfo(String name, boolean optional) {
         this.name = name;
@@ -25,7 +25,7 @@ public class ParamInfo {
     }
 
     /**
-     * Gets the name of this parameter
+     * Gets the name of this parameter.
      *
      * @return the name of this parameter
      */
@@ -34,7 +34,7 @@ public class ParamInfo {
     }
 
     /**
-     * Returns whether this parameter is optional
+     * Returns whether this parameter is optional.
      *
      * @return {@code true} if the parameter is optional, else {@code false}
      */

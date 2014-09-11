@@ -3,7 +3,7 @@ package pw.ollie.args.params;
 import pw.ollie.args.StringWrapper;
 
 /**
- * An extension of StringWrapper, used for parameters.
+ * An extension of {@link StringWrapper}, used for parameters.
  */
 public class Parameter extends StringWrapper {
     /**
@@ -12,9 +12,10 @@ public class Parameter extends StringWrapper {
     private final ParamInfo info;
 
     /**
-     * Creates a new Parameter, using the given String argument as a raw string.
+     * Creates a new {@link Parameter}, using the given {@link String} argument
+     * as a raw string.
      *
-     * @param arg the raw string for this ParamStringWrapper
+     * @param arg the raw string for this {@link Parameter}
      * @param info information about this parameter
      */
     public Parameter(String arg, ParamInfo info) {
@@ -23,9 +24,9 @@ public class Parameter extends StringWrapper {
     }
 
     /**
-     * Gets the ParamInfo for this Parameter
+     * Gets the {@link ParamInfo} for this {@link Parameter}.
      *
-     * @return this Parameter's ParamInfo object
+     * @return this {@link Parameter}'s {@link ParamInfo} object
      */
     public ParamInfo getInfo() {
         return info;

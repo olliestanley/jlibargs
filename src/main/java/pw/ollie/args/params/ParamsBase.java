@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * A base to create Params objects from - used so that we don't parse the usage
- * string every time a command is executed.
+ * A base to create {@link Params} objects from - used so that we don't parse
+ * the usage string every time a command is executed.
  */
 public class ParamsBase {
     /**
@@ -52,14 +52,15 @@ public class ParamsBase {
     private final List<FlagInfo> flags;
 
     /**
-     * Creates a new ParamsBase for the given List of Parameters and the given
-     * amount of arguments before the first parameter.
+     * Creates a new ParamsBase for the given {@link List} of params and the
+     * given amount of arguments before the first parameter.
      *
      * @param params the parameters for this ParamsBase
      * @param argsBeforeParams the amount of arguments before the first param
      * @param amtRequired the amount of required parameters
      */
-    private ParamsBase(List<ParamInfo> params, int argsBeforeParams, int amtRequired, List<FlagInfo> flags) {
+    private ParamsBase(List<ParamInfo> params, int argsBeforeParams,
+            int amtRequired, List<FlagInfo> flags) {
         this.params = params;
         this.argsBeforeParams = argsBeforeParams;
         this.amtRequired = amtRequired;
@@ -107,7 +108,7 @@ public class ParamsBase {
     }
 
     /**
-     * Creates a set of parameters for this base using the given arguments
+     * Creates a set of parameters for this base using the given arguments.
      *
      * @param args the arguments to create the parameters from
      * @return a set of parameters for the given arguments
@@ -149,7 +150,7 @@ public class ParamsBase {
     }
 
     /**
-     * Builds a new ParamsBase by parsing the given usage string for a command
+     * Builds a new ParamsBase by parsing the given usage string for a command.
      *
      * @param usageString the command usage string to parse
      * @return a new ParamsBase created from parsing the given usage string
@@ -192,13 +193,16 @@ public class ParamsBase {
 
             if (required || optional) {
                 final char next = characters[i + 1];
-                if (ch == '-' && next != REQUIRED_CLOSE_DENOTATION && next != OPTIONAL_CLOSE_DENOTATION && characters[i + 2] == ' ') {
+                if (ch == '-' && next != REQUIRED_CLOSE_DENOTATION
+                        && next != OPTIONAL_CLOSE_DENOTATION
+                        && characters[i + 2] == ' ') {
                     StringBuilder desc = new StringBuilder();
                     int breakPoint = Integer.MAX_VALUE;
                     boolean isOptional = false;
                     for (int j = 3; j < breakPoint; j++) {
                         char toAppend = characters[i + j];
-                        if (toAppend == REQUIRED_CLOSE_DENOTATION || toAppend == OPTIONAL_CLOSE_DENOTATION) {
+                        if (toAppend == REQUIRED_CLOSE_DENOTATION
+                                || toAppend == OPTIONAL_CLOSE_DENOTATION) {
                             if (toAppend == OPTIONAL_CLOSE_DENOTATION) {
                                 isOptional = true;
                             }
@@ -208,7 +212,9 @@ public class ParamsBase {
 
                         desc.append(toAppend);
                     }
-                    flags.add(new FlagInfo(String.valueOf(next), desc.toString(), isOptional));
+                    flags.add(
+                            new FlagInfo(String.valueOf(next), desc.toString(),
+                                    isOptional));
 
                     i += 2;
                     required = false;

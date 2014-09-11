@@ -6,15 +6,16 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 /**
- * A wrapper around a HashMap to provide a set of parameters for commands.
+ * A wrapper around a {@link Map} to provide a set of parameters for commands
+ * and similar.
  */
 public class Params {
     /**
-     * A map of all of the parameters.
+     * A {@link Map} of all of the parameters.
      */
     private final Map<String, Parameter> params;
     /**
-     * Base information for these Params.
+     * Base information for these {@link Params}.
      */
     private final ParamsBase base;
 
@@ -24,7 +25,8 @@ public class Params {
     private boolean valid = true;
 
     /**
-     * Creates a new set of Params from the given Map of parameters to values.
+     * Creates a new set of {@link Params} from the given {@link Map} of
+     * parameters to values.
      *
      * @param base base information for these params
      * @param params the parameters and their values for this Params object
@@ -45,17 +47,18 @@ public class Params {
     }
 
     /**
-     * Gets the ParamsBase object for this set of Params. Contains basic info
-     * about the parameters involved.
+     * Gets the {@link ParamsBase} object for this set of {@link Params}.
+     * Contains basic info about the parameters involved.
      *
-     * @return basic information about these Params
+     * @return basic information about these {@link Params}
      */
     public ParamsBase getBaseInfo() {
         return base;
     }
 
     /**
-     * Checks whether these Params contain a value for the given parameter.
+     * Checks whether these {@link Params} contain a value for the given
+     * parameter.
      *
      * @param parameter the parameter to check for the presence of
      * @return whether the given parameter has a value in this Params object
@@ -65,30 +68,30 @@ public class Params {
     }
 
     /**
-     * Gets a Set of all of the parameter names contained by this Params
-     * object's Map of parameters.
+     * Gets a {@link Set} of all of the parameter names contained by this {@link
+     * Params} object's {@link Map} of parameters.
      *
-     * @return a Set of all of the parameter names for this Params
+     * @return a {@link Set} of all of the parameter names for these parameters
      */
     public Set<String> parameters() {
         return new HashSet<>(params.keySet());
     }
 
     /**
-     * Gets a Set of all of the parameter values contained by this Params
-     * object's Map of parameters.
+     * Gets a {@link Set} of all of the parameter values contained by this
+     * object's {@link Map} of parameters.
      *
-     * @return a Set of all of the parameter values for this Params
+     * @return a {@link Set} of all of the parameter values for these parameters
      */
     public Set<Parameter> values() {
         return new HashSet<>(params.values());
     }
 
     /**
-     * Gets a Set of all of the entries to the Map of parameters contained by
-     * this Params object.
+     * Gets a {@link Set} of all of the entries to the {@link Map} of parameters
+     * contained by this {@link Params} object.
      *
-     * @return a Set of all entries to this Params' Map
+     * @return a {@link Set} of all entries to the parameters {@link Map}
      */
     public Set<Entry<String, Parameter>> entries() {
         return new HashSet<>(params.entrySet());
