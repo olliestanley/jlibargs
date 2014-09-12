@@ -49,45 +49,50 @@ public class Arguments {
      * @param parse the String[] of raw arguments to parse
      */
     public Arguments(String... parse) {
-        this.all = new ArrayList<>();
-        this.arguments = new ArrayList<>();
+        this.all = new ArrayList<>(parse.length);
+        this.arguments = new ArrayList<>(parse.length);
         this.flags = new HashSet<>();
         this.doubleFlags = new HashSet<>();
+        this.raw = parse;
 
-        raw = parse;
         for (int i = 0; i < raw.length; i++) {
             String arg = raw[i];
-            all.add(new StringWrapper(arg));
+            boolean isLastArg = i == raw.length - 1;
+            // construct a single StringWrapper for the arg
+            StringWrapper sw = new StringWrapper(arg);
 
-            switch (arg.charAt(0)) {
-                case '-':
-                    if (arg.length() < 2) {
-                        arguments.add(new StringWrapper(arg));
-                        continue;
-                    }
-                    if (arg.charAt(1) == '-') {
-                        if (arg.length() < 3) {
-                            arguments.add(new StringWrapper(arg));
-                            continue;
-                        }
-                        // flag with double -- (no value)
-                        doubleFlags.add(new Flag(arg.substring(2, arg.length()),
-                                null));
-                    } else {
-                        if (raw.length - 1 == i) {
-                            arguments.add(new StringWrapper(arg));
-                            continue;
-                        }
-                        // flag with single - (plus value)
-                        flags.add(new Flag(arg.substring(1, arg.length()),
-                                raw[++i]));
-                    }
-                    break;
-                default:
-                    // normal argument
-                    arguments.add(new StringWrapper(raw[i]));
-                    break;
+            // add to the list of all arguments
+            all.add(sw);
+
+            boolean flag = arg.charAt(0) == '-';
+            if (!flag || arg.length() < 2) {
+                // normal argument, or flag with no name (e.g, "-")
+                arguments.add(sw);
+                continue;
             }
+
+            boolean doubleFlag = arg.charAt(1) == '-';
+            if (doubleFlag && arg.length() < 3) {
+                // arg is "--" - no name given for flag
+                arguments.add(sw);
+                continue;
+            }
+
+            // flag argument handling
+            if (doubleFlag) {
+                // double flag (--, no value)
+                doubleFlags.add(new Flag(arg.substring(2, arg.length()), null));
+                continue;
+            }
+
+            if (isLastArg) {
+                // single flag but no value given (this is the last arg)
+                arguments.add(sw);
+                continue;
+            }
+
+            // single flag (-, value)
+            flags.add(new Flag(arg.substring(1, arg.length()), raw[++i]));
         }
     }
 
