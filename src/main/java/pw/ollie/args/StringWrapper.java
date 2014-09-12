@@ -27,15 +27,6 @@ public class StringWrapper {
      * @return this StringWrapper's raw String value
      */
     public String get() {
-        return rawString();
-    }
-
-    /**
-     * Gets the raw string this StringWrapper wraps.
-     *
-     * @return this StringWrapper's raw String value
-     */
-    public String rawString() {
         return raw;
     }
 

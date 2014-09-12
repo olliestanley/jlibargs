@@ -2,6 +2,7 @@ package pw.ollie.args;
 
 import pw.ollie.args.params.Parameter;
 import pw.ollie.args.params.Params;
+import pw.ollie.args.params.ParamsBase;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -15,11 +16,12 @@ import java.util.Set;
  */
 public class Arguments {
     /**
-     * A {@link List} of all of the arguments in StringWrapper form.
+     * A {@link List} of all of the arguments in {@link StringWrapper} form.
      */
     private final List<StringWrapper> all;
     /**
-     * A List of arguments, not including flag arguments, in StringWrapper form.
+     * A {@link List} of arguments, not including flag arguments, in {@link
+     * StringWrapper} form.
      */
     private final List<StringWrapper> arguments;
     /**
@@ -29,7 +31,7 @@ public class Arguments {
     /**
      * A {@link List} of all flags prefixed with --
      */
-    private final Set<Flag> doubleFlags;
+    private final Set<StringWrapper> doubleFlags;
     /**
      * The raw String[] of arguments for this Arguments object.
      */
@@ -37,7 +39,7 @@ public class Arguments {
 
     /**
      * The {@link Params} object for this Arguments object. This contains a
-     * {@link Map} of parameter names to ParamStringWrapper values for each
+     * {@link Map} of parameter names to {@link Parameter} values for each
      * registered parameter for the command.
      */
     private Params parameters;
@@ -46,7 +48,7 @@ public class Arguments {
      * Creates a new Arguments object and immediately parses the given String[]
      * of arguments into {@link StringWrapper}s and {@link Flag}s.
      *
-     * @param parse the String[] of raw arguments to parse
+     * @param parse the raw argument {@link String}s to parse
      */
     public Arguments(String... parse) {
         this.all = new ArrayList<>(parse.length);
@@ -81,7 +83,8 @@ public class Arguments {
             // flag argument handling
             if (doubleFlag) {
                 // double flag (--, no value)
-                doubleFlags.add(new Flag(arg.substring(2, arg.length()), null));
+                doubleFlags.add(new StringWrapper(
+                        arg.substring(2, arg.length())));
                 continue;
             }
 
@@ -92,8 +95,25 @@ public class Arguments {
             }
 
             // single flag (-, value)
-            flags.add(new Flag(arg.substring(1, arg.length()), raw[++i]));
+            flags.add(new Flag(arg.substring(1, arg.length()),
+                    new StringWrapper(raw[++i])));
         }
+    }
+
+    /**
+     * Constructs a new Arguments object, parsing the given {@link String}
+     * varargs and then creating a {@link Params} object by calling {@link
+     * ParamsBase#createParams(Arguments)}, providing {@code this} as the {@link
+     * Arguments} parameter.
+     *
+     * @param paramsBase the {@link ParamsBase} to create a {@link Params}
+     *        object from
+     * @param parse the raw argument {@link String}s to parse
+     */
+    // should probably be the other way around but i hate no varargs
+    public Arguments(ParamsBase paramsBase, String... parse) {
+        this(parse);
+        this.withParams(paramsBase.createParams(this));
     }
 
     /**
@@ -139,7 +159,7 @@ public class Arguments {
      * @return a raw String for the argument at the given index
      */
     public String getRaw(int index, boolean includeFlagArgs) {
-        return get(index, includeFlagArgs).rawString();
+        return get(index, includeFlagArgs).get();
     }
 
     /**
@@ -192,7 +212,7 @@ public class Arguments {
         if (param == null) {
             return null;
         }
-        return param.rawString();
+        return param.get();
     }
 
     /**
@@ -248,8 +268,8 @@ public class Arguments {
      *         name
      */
     public boolean hasNonValueFlag(String flag) {
-        for (Flag f : doubleFlags) {
-            if (f.getName().equalsIgnoreCase(flag)) {
+        for (StringWrapper f : doubleFlags) {
+            if (f.get().equalsIgnoreCase(flag)) {
                 return true;
             }
         }
@@ -292,11 +312,14 @@ public class Arguments {
 
     /**
      * Sets the {@link Params} object for this Arguments object. Should only be
-     * called directly after creation. If this is called multiple times an
-     * {@link IllegalStateException} will be thrown.
+     * called directly after creation.
      *
      * @param parameters the {@link Params} to set for this Arguments object
      * @return this {@link Arguments} object
+     * @throws IllegalStateException if this Arguments object already has a
+     *         {@link Params} object associated with it - i.e this method has
+     *         already been called or this object was created via the {@link
+     *         #Arguments(ParamsBase, String...)} constructor
      */
     public Arguments withParams(Params parameters) {
         if (this.parameters != null) {
