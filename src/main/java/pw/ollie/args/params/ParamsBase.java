@@ -55,6 +55,18 @@ public class ParamsBase {
      * The character which separates arguments.
      */
     public static final char ARGUMENT_SEPARATOR = ' ';
+    /**
+     * The status code for no parameter currently being parsed.
+     */
+    private static final int NO_PARAMETER = 0;
+    /**
+     * The status code for a required parameter currently being parsed.
+     */
+    private static final int REQUIRED_PARAMETER = 1;
+    /**
+     * The status code for an optional parameter currently being parsed.
+     */
+    private static final int OPTIONAL_PARAMETER = 2;
 
     /**
      * A list of all of the parameters.
@@ -180,8 +192,7 @@ public class ParamsBase {
      */
     public static ParamsBase fromUsageString(String usageString) {
         List<ParamInfo> res = new ArrayList<>();
-        boolean required = false;
-        boolean optional = false;
+        int status = NO_PARAMETER;
         StringBuilder builder = null;
         boolean reachedFirst = false;
         int before = 0;
@@ -201,20 +212,24 @@ public class ParamsBase {
                 continue;
             }
 
-            if (required && ch == REQUIRED_CLOSE_DENOTATION) {
-                required = false;
+            if (status == REQUIRED_PARAMETER
+                    && ch == REQUIRED_CLOSE_DENOTATION) {
+                status = NO_PARAMETER;
                 res.add(new ParamInfo(builder.toString(), false));
                 amtRequired++;
                 builder = null;
                 continue;
-            } else if (optional && ch == OPTIONAL_CLOSE_DENOTATION) {
-                optional = false;
+            }
+
+            if (status == OPTIONAL_PARAMETER
+                    && ch == OPTIONAL_CLOSE_DENOTATION) {
+                status = NO_PARAMETER;
                 res.add(new ParamInfo(builder.toString(), true));
                 builder = null;
                 continue;
             }
 
-            if (required || optional) {
+            if (status == REQUIRED_PARAMETER || status == OPTIONAL_PARAMETER) {
                 final char next = characters[i + 1];
                 if (ch == '-' && next != REQUIRED_CLOSE_DENOTATION
                         && next != OPTIONAL_CLOSE_DENOTATION
@@ -235,27 +250,28 @@ public class ParamsBase {
 
                         desc.append(toAppend);
                     }
+
                     flags.add(new FlagInfo(String.valueOf(next),
                             desc.toString(), isOptional));
 
                     i += 2;
-                    required = false;
-                    optional = false;
+                    status = NO_PARAMETER;
                     builder = null;
                     continue;
                 }
 
                 builder.append(ch);
-            } else {
-                if (ch == REQUIRED_OPEN_DENOTATION) {
-                    reachedFirst = true;
-                    required = true;
-                    builder = new StringBuilder();
-                } else if (ch == OPTIONAL_OPEN_DENOTATION) {
-                    reachedFirst = true;
-                    optional = true;
-                    builder = new StringBuilder();
-                }
+                continue;
+            }
+
+            if (ch == REQUIRED_OPEN_DENOTATION) {
+                reachedFirst = true;
+                status = REQUIRED_PARAMETER;
+                builder = new StringBuilder();
+            } else if (ch == OPTIONAL_OPEN_DENOTATION) {
+                reachedFirst = true;
+                status = OPTIONAL_PARAMETER;
+                builder = new StringBuilder();
             }
         }
 
