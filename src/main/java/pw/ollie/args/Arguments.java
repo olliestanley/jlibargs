@@ -217,7 +217,7 @@ public class Arguments {
         if (!hasParams()) {
             return null;
         }
-        return getParams().get(parameter);
+        return getParams().get(parameter).orElse(null);
     }
 
     /**
