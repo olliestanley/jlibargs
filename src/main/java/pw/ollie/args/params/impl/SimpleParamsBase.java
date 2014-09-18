@@ -115,11 +115,6 @@ public class SimpleParamsBase implements ParamsBase {
         return amtRequired;
     }
 
-    @Override
-    public int getAmtOptional() {
-        return length() - getAmtRequired();
-    }
-
     /**
      * Gets the amount of flags required to satisfy the requirements of this
      * {@link ParamsBase}.
@@ -151,8 +146,7 @@ public class SimpleParamsBase implements ParamsBase {
             if (curFlag < requiredFlags.size()) {
                 // get through as many flags as possible in the same loop to
                 // be supah-efficient (yes I know the performance gain is tiny)
-                if (!args
-                        .hasValueFlag(requiredFlags.get(curFlag++).getName())) {
+                if (!args.hasValueFlag(requiredFlags.get(curFlag++).name)) {
                     // a required flag isn't present
                     valid = false;
                 }
@@ -168,7 +162,7 @@ public class SimpleParamsBase implements ParamsBase {
 
         while (curFlag < requiredFlags.size()) {
             // get through the rest of the flags...
-            if (!args.hasValueFlag(requiredFlags.get(curFlag++).getName())) {
+            if (!args.hasValueFlag(requiredFlags.get(curFlag++).name)) {
                 // a required flag isn't present
                 valid = false;
             }
@@ -240,7 +234,6 @@ public class SimpleParamsBase implements ParamsBase {
                 if (ch == '-' && next != REQUIRED_CLOSE_DENOTATION
                         && next != OPTIONAL_CLOSE_DENOTATION
                         && characters[i + 2] == ' ') {
-                    StringBuilder desc = new StringBuilder();
                     int breakPoint = Integer.MAX_VALUE;
                     boolean isOptional = false;
                     for (int j = 3; j < breakPoint; j++) {
@@ -251,15 +244,11 @@ public class SimpleParamsBase implements ParamsBase {
                                 isOptional = true;
                             }
                             breakPoint = j;
-                            continue;
                         }
-
-                        desc.append(toAppend);
                     }
 
                     if (!isOptional) {
-                        requiredFlags.add(new FlagInfo(String.valueOf(next),
-                                desc.toString(), isOptional));
+                        requiredFlags.add(new FlagInfo(String.valueOf(next)));
                     }
 
                     i += 2;
@@ -291,36 +280,13 @@ public class SimpleParamsBase implements ParamsBase {
      */
     private static class FlagInfo {
         /**
-         * Name (denotation) of the flag. This represents the first 'component' of a
-         * flag. For example, in '-f val', this would be 'f'.
+         * Name (denotation) of the flag. This represents the first 'component'
+         * of a flag. For example, in '-f val', this would be 'f'.
          */
-        private final String name;
-        /**
-         * A short description of the flag. Should be one word. This represents the
-         * second 'component' of a flag. In '-f val', this would be 'val'.
-         */
-        private final String desc;
-        /**
-         * Whether this flag is optional.
-         */
-        private final boolean optional;
+        final String name;
 
-        public FlagInfo(String name, String desc, boolean optional) {
+        FlagInfo(String name) {
             this.name = name;
-            this.desc = desc;
-            this.optional = optional;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public String getDesc() {
-            return desc;
-        }
-
-        public boolean isOptional() {
-            return optional;
         }
     }
 }

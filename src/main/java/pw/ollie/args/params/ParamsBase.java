@@ -61,5 +61,7 @@ public interface ParamsBase {
      *
      * @return the amount of optional parameters
      */
-    int getAmtOptional();
+    default int getAmtOptional() {
+        return length() - getAmtRequired();
+    }
 }

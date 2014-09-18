@@ -49,8 +49,8 @@ public class TestMain {
                 "/command subcommand <-f lol> <option1> [optional]");
         Assert.assertEquals("PB: Length", paramsBase.length(), 2);
         // Each required flag counts as two required, hence 3 not 2
-        Assert.assertEquals("PB: Req", paramsBase.getAmountRequired(), 1);
-        Assert.assertEquals("PB: Opt", paramsBase.getAmountOptional(), 1);
+        Assert.assertEquals("PB: Req", paramsBase.getAmtRequired(), 1);
+        Assert.assertEquals("PB: Opt", paramsBase.getAmtOptional(), 1);
         Assert.assertEquals("PB: B4", 1, paramsBase.getArgsBeforeParams());
         Assert.assertEquals("PB: FLA", 1, paramsBase.getAmtRequiredFlags());
 
@@ -75,8 +75,8 @@ public class TestMain {
         SimpleParamsBase paramsBase1 = SimpleParamsBase.fromUsageString(
                 "/command subcommand <-f lol> <option1> [optional]");
         Assert.assertEquals("PB: Length", paramsBase1.length(), 2);
-        Assert.assertEquals("PB1: Req", paramsBase1.getAmountRequired(), 1);
-        Assert.assertEquals("PB1: Opt", paramsBase1.getAmountOptional(), 1);
+        Assert.assertEquals("PB1: Req", paramsBase1.getAmtRequired(), 1);
+        Assert.assertEquals("PB1: Opt", paramsBase1.getAmtOptional(), 1);
         Assert.assertEquals("PB1: B4", 1, paramsBase1.getArgsBeforeParams());
         Assert.assertEquals("PB1: FLA", 1, paramsBase1.getAmtRequiredFlags());
 
