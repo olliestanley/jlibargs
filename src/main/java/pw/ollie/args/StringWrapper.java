@@ -106,11 +106,20 @@ public class StringWrapper {
     /**
      * Returns this StringWrapper's value parsed as a boolean.
      *
-     * @return this StringWrapper's value parsed as a boolean. Note that if the
-     *         value of the StringWrapper isn't a valid boolean, false is returned
+     * @return this StringWrapper's value parsed as a boolean
      */
     public Boolean asBoolean() {
         return Boolean.valueOf(raw);
+    }
+
+    /**
+     * Returns this StringWrapper's value parsed as a Character. {@code null} is
+     * returned if the raw string is not one character long.
+     *
+     * @return this StringWrapper's value parsed as a Character
+     */
+    public Character asChar() {
+        return raw.length() == 1 ? raw.charAt(0) : null;
     }
 
     /**
@@ -190,5 +199,14 @@ public class StringWrapper {
      */
     public boolean isBoolean() {
         return raw.equals("true") || raw.equals("false");
+    }
+
+    /**
+     * Checks whether this StringWrapper's value can be parsed as a char.
+     *
+     * @return whether this StringWrapper's value can be parsed as a char
+     */
+    public boolean isChar() {
+        return raw.length() == 1;
     }
 }
