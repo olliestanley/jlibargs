@@ -27,6 +27,9 @@ package pw.ollie.args;
  * A wrapper around a {@link String} which allows for parsing of many primitive
  * data types as well as providing methods to check whether the argument is a
  * valid form of said primitive types.
+ *
+ * StringWrapper objects are immutable and any methods which may appear to make
+ * a modification(s) to the state of the StringWrapper will return a new object.
  */
 public class StringWrapper {
     /**
@@ -41,6 +44,9 @@ public class StringWrapper {
      * @param arg the raw string for this StringWrapper
      */
     public StringWrapper(String arg) {
+        if (arg == null) {
+            throw new IllegalArgumentException();
+        }
         this.raw = arg;
     }
 
@@ -208,5 +214,72 @@ public class StringWrapper {
      */
     public boolean isChar() {
         return raw.length() == 1;
+    }
+
+    /**
+     * @return {@code raw.intern()}
+     * @see {@link String#intern()}
+     */
+    public String getIntern() {
+        return raw.intern();
+    }
+
+    /**
+     * @param string the string to add to the end of the current string
+     * @return {@code new StringWrapper(raw.concat(string))}
+     * @see {@link String#concat(String)}
+     */
+    public StringWrapper concat(String string) {
+        return new StringWrapper(raw.concat(string));
+    }
+
+    /**
+     * @param startIndex the start of the substring
+     * @param endIndex the end of the substring
+     * @return {@code new StringWrapper(raw.substring(startIndex, endIndex))}
+     * @see {@link String#substring(int, int)}
+     */
+    public StringWrapper substring(int startIndex, int endIndex) {
+        return new StringWrapper(raw.substring(startIndex, endIndex));
+    }
+
+    /**
+     * @return {@code new StringWrapper(raw.toLowerCase())}
+     * @see {@link String#toLowerCase()}
+     */
+    public StringWrapper toLowerCase() {
+        return new StringWrapper(raw.toLowerCase());
+    }
+
+    /**
+     * @return {@code new StringWrapper(raw.toUpperCase())}
+     * @see {@link String#toUpperCase()}
+     */
+    public StringWrapper toUpperCase() {
+        return new StringWrapper(raw.toUpperCase());
+    }
+
+    /**
+     * @return {@code raw.toCharArray()}
+     * @see {@link String#toCharArray()}
+     */
+    public char[] toCharArray() {
+        return raw.toCharArray();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other instanceof StringWrapper && ((StringWrapper) other).raw
+                .equals(raw);
+    }
+
+    @Override
+    public int hashCode() {
+        return raw.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return raw.intern();
     }
 }
