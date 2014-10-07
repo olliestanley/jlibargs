@@ -77,11 +77,7 @@ public class SimpleParams implements Params {
 
     @Override
     public Optional<Parameter> get(String parameter) {
-        Parameter val = params.get(parameter);
-        if (val == null) {
-            return Optional.empty();
-        }
-        return Optional.of(val);
+        return Optional.ofNullable(params.get(parameter));
     }
 
     @Override
