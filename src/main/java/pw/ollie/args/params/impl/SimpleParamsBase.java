@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiFunction;
 
 /**
  * A base to create {@link SimpleParams} objects from - used so that we don't
@@ -88,6 +89,10 @@ public class SimpleParamsBase implements ParamsBase {
      * Flag information for validation.
      */
     private final List<FlagInfo> requiredFlags;
+    /**
+     * All registered parameter processors.
+     */
+    private final List<BiFunction<ParamInfo, String, String>> processors;
 
     /**
      * Creates a new ParamsBase for the given {@link List} of params and the
@@ -103,6 +108,7 @@ public class SimpleParamsBase implements ParamsBase {
         this.argsBeforeParams = argsBeforeParams;
         this.amtRequired = amtRequired;
         this.requiredFlags = requiredFlags;
+        this.processors = new ArrayList<>();
     }
 
     @Override
@@ -113,6 +119,18 @@ public class SimpleParamsBase implements ParamsBase {
     @Override
     public int getAmtRequired() {
         return amtRequired;
+    }
+
+    @Override
+    public void registerProcessor(
+            BiFunction<ParamInfo, String, String> processor) {
+        processors.add(processor);
+    }
+
+    @Override
+    public void unregisterProcessor(
+            BiFunction<ParamInfo, String, String> processor) {
+        processors.remove(processor);
     }
 
     /**
@@ -152,8 +170,8 @@ public class SimpleParamsBase implements ParamsBase {
                 }
             }
 
-            String val = args.getRaw(curArg, false);
             ParamInfo info = params.get(curParam);
+            String val = process(info, args.getRaw(curArg, false));
 
             map.put(info.getName(), new Parameter(val, info));
             curArg++;
@@ -174,6 +192,13 @@ public class SimpleParamsBase implements ParamsBase {
         }
 
         return params;
+    }
+
+    private String process(ParamInfo info, String argument) {
+        for (BiFunction<ParamInfo, String, String> processor : processors) {
+            argument = processor.apply(info, argument);
+        }
+        return argument;
     }
 
     /**

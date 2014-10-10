@@ -25,6 +25,8 @@ package pw.ollie.args.params;
 
 import pw.ollie.args.Arguments;
 
+import java.util.function.BiFunction;
+
 /**
  * A base used to create {@link Params} objects from. Used for {@link Params}
  * implementations where parsing which is the same for multiple situations is
@@ -55,6 +57,10 @@ public interface ParamsBase {
      * @return the amount of required parameters
      */
     int getAmtRequired();
+
+    void registerProcessor(BiFunction<ParamInfo, String, String> processor);
+
+    void unregisterProcessor(BiFunction<ParamInfo, String, String> processor);
 
     /**
      * Gets the amount of non-required (optional) parameters.
