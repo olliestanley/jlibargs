@@ -58,8 +58,21 @@ public interface ParamsBase {
      */
     int getAmtRequired();
 
+    /**
+     * Registers the given {@link BiFunction} as a processor for parameters
+     * parsed by this {@link ParamsBase}. For each argument processed by this
+     * {@link ParamsBase}, {@link BiFunction#apply(Object, Object)} is called on
+     * the given processor.
+     *
+     * @param processor the {@link BiFunction} to use as a parameter processor
+     */
     void registerProcessor(BiFunction<ParamInfo, String, String> processor);
 
+    /**
+     * Unregisters the given {@link BiFunction} from parameter processing.
+     *
+     * @param processor the {@link BiFunction} to unregister
+     */
     void unregisterProcessor(BiFunction<ParamInfo, String, String> processor);
 
     /**

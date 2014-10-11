@@ -196,7 +196,10 @@ public class SimpleParamsBase implements ParamsBase {
 
     private String process(ParamInfo info, String argument) {
         for (BiFunction<ParamInfo, String, String> processor : processors) {
-            argument = processor.apply(info, argument);
+            String processed = processor.apply(info, argument);
+            if (processed != null && !processed.isEmpty()) {
+                argument = processed;
+            }
         }
         return argument;
     }
