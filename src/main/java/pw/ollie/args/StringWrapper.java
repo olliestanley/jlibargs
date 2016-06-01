@@ -31,7 +31,7 @@ package pw.ollie.args;
  * StringWrapper objects are immutable and any methods which may appear to make
  * a modification(s) to the state of the StringWrapper will return a new object.
  */
-public class StringWrapper {
+public final class StringWrapper {
     /**
      * The raw string for the argument wrapped by this StringWrapper object.
      */

@@ -38,7 +38,7 @@ import java.util.function.BiFunction;
  * A base to create {@link SimpleParams} objects from - used so that we don't
  * parse the usage string every time a command is executed.
  */
-public class SimpleParamsBase implements ParamsBase {
+public final class SimpleParamsBase implements ParamsBase {
     /**
      * The character which implies the beginning of a required parameter.
      */

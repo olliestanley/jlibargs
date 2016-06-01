@@ -37,7 +37,7 @@ import java.util.Set;
  * A wrapper around a {@link Map} to provide a set of parameters for commands
  * and similar.
  */
-public class SimpleParams implements Params {
+public final class SimpleParams implements Params {
     /**
      * The base {@link Arguments} parsed to create these {@link SimpleParams}.
      */

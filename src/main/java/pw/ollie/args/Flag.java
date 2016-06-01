@@ -26,7 +26,7 @@ package pw.ollie.args;
 /**
  * A flag which simply has a name and a value.
  */
-public class Flag {
+public final class Flag {
     /**
      * The name of the flag.
      */
