@@ -1,7 +1,7 @@
 /*
  * This file is part of jlibargs, licensed under the MIT License (MIT).
  *
- * Copyright (c) 2014 Oliver Stanley <http://ollie.pw>
+ * Copyright (c) 2014-2019 Oliver Stanley <http://ollie.pw>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,7 +31,7 @@ package pw.ollie.args;
  * StringWrapper objects are immutable and any methods which may appear to make
  * a modification(s) to the state of the StringWrapper will return a new object.
  */
-public final class StringWrapper {
+public class StringWrapper {
     /**
      * The raw string for the argument wrapped by this StringWrapper object.
      */

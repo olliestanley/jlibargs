@@ -1,7 +1,7 @@
 /*
  * This file is part of jlibargs, licensed under the MIT License (MIT).
  *
- * Copyright (c) 2014 Oliver Stanley <http://ollie.pw>
+ * Copyright (c) 2014-2019 Oliver Stanley <http://ollie.pw>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -106,8 +106,7 @@ public class Arguments {
             // flag argument handling
             if (doubleFlag) {
                 // double flag (--, no value)
-                doubleFlags.add(new StringWrapper(
-                        arg.substring(2, arg.length())));
+                doubleFlags.add(new StringWrapper(arg.substring(2)));
                 continue;
             }
 
@@ -118,8 +117,7 @@ public class Arguments {
             }
 
             // single flag (-, value)
-            flags.add(new Flag(arg.substring(1, arg.length()),
-                    new StringWrapper(raw[++i])));
+            flags.add(new Flag(arg.substring(1), new StringWrapper(raw[++i])));
         }
     }
 
