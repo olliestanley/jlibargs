@@ -32,10 +32,10 @@ public final class Flag {
      */
     private final String name;
     /**
-     * The {@link StringWrapper} representing the value of this flag, which
+     * The {@link Argument} representing the value of this flag, which
      * provides various methods to use the value.
      */
-    private final StringWrapper valArg;
+    private final Argument valArg;
 
     /**
      * Constructs a new {@link Flag} with the given name and the given value.
@@ -43,7 +43,7 @@ public final class Flag {
      * @param name the name of the flag
      * @param value the value for the flag
      */
-    public Flag(String name, StringWrapper value) {
+    public Flag(String name, Argument value) {
         this.name = name;
         this.valArg = value;
     }
@@ -53,10 +53,10 @@ public final class Flag {
      *
      * @param name the name of the flag
      * @param value the value for the flag
-     * @deprecated use {@link #Flag(String, StringWrapper)}
+     * @deprecated use {@link #Flag(String, Argument)}
      */
     public Flag(String name, String value) {
-        this(name, new StringWrapper(value));
+        this(name, new Argument(value));
     }
 
     /**
@@ -69,12 +69,12 @@ public final class Flag {
     }
 
     /**
-     * Gets the {@link StringWrapper} which represents the value provided for
+     * Gets the {@link Argument} which represents the value provided for
      * this flag.
      *
      * @return this flag's value
      */
-    public StringWrapper getValue() {
+    public Argument getValue() {
         return valArg;
     }
 

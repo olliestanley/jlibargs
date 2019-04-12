@@ -28,22 +28,22 @@ package pw.ollie.args;
  * data types as well as providing methods to check whether the argument is a
  * valid form of said primitive types.
  *
- * StringWrapper objects are immutable and any methods which may appear to make
- * a modification(s) to the state of the StringWrapper will return a new object.
+ * Argument objects are immutable and any methods which may appear to make
+ * a modification(s) to the state of the Argument will return a new object.
  */
-public class StringWrapper {
+public class Argument {
     /**
-     * The raw string for the argument wrapped by this StringWrapper object.
+     * The raw string for the argument wrapped by this Argument object.
      */
     private final String raw;
 
     /**
-     * Creates a new StringWrapper, using the given String argument as a raw
+     * Creates a new Argument, using the given String argument as a raw
      * string.
      *
-     * @param arg the raw string for this StringWrapper
+     * @param arg the raw string for this Argument
      */
-    public StringWrapper(String arg) {
+    public Argument(String arg) {
         if (arg == null) {
             throw new IllegalArgumentException();
         }
@@ -51,18 +51,18 @@ public class StringWrapper {
     }
 
     /**
-     * Gets the raw string this StringWrapper wraps.
+     * Gets the raw string this Argument wraps.
      *
-     * @return this StringWrapper's raw String value
+     * @return this Argument's raw String value
      */
     public String get() {
         return raw;
     }
 
     /**
-     * Returns this StringWrapper's value parsed as an int.
+     * Returns this Argument's value parsed as an int.
      *
-     * @return this StringWrapper's value parsed as an int
+     * @return this Argument's value parsed as an int
      * @throws NumberFormatException if the value isn't an int
      */
     public int asInt() {
@@ -70,9 +70,9 @@ public class StringWrapper {
     }
 
     /**
-     * Returns this StringWrapper's value parsed as a double.
+     * Returns this Argument's value parsed as a double.
      *
-     * @return this StringWrapper's value parsed as a double
+     * @return this Argument's value parsed as a double
      * @throws NumberFormatException if the value isn't a double
      */
     public double asDouble() {
@@ -80,9 +80,9 @@ public class StringWrapper {
     }
 
     /**
-     * Returns this StringWrapper's value parsed as a float.
+     * Returns this Argument's value parsed as a float.
      *
-     * @return this StringWrapper's value parsed as a float
+     * @return this Argument's value parsed as a float
      * @throws NumberFormatException if the argument isn't a float
      */
     public float asFloat() {
@@ -90,9 +90,9 @@ public class StringWrapper {
     }
 
     /**
-     * Returns this StringWrapper's value parsed as a long.
+     * Returns this Argument's value parsed as a long.
      *
-     * @return this StringWrapper's value parsed as a long
+     * @return this Argument's value parsed as a long
      * @throws NumberFormatException if the value isn't a long
      */
     public long asLong() {
@@ -100,9 +100,9 @@ public class StringWrapper {
     }
 
     /**
-     * Returns this StringWrapper's value parsed as a short.
+     * Returns this Argument's value parsed as a short.
      *
-     * @return this StringWrapper's value parsed as a short
+     * @return this Argument's value parsed as a short
      * @throws NumberFormatException if the value isn't a short
      */
     public short asShort() {
@@ -110,28 +110,28 @@ public class StringWrapper {
     }
 
     /**
-     * Returns this StringWrapper's value parsed as a boolean.
+     * Returns this Argument's value parsed as a boolean.
      *
-     * @return this StringWrapper's value parsed as a boolean
+     * @return this Argument's value parsed as a boolean
      */
     public Boolean asBoolean() {
         return Boolean.valueOf(raw);
     }
 
     /**
-     * Returns this StringWrapper's value parsed as a Character. {@code null} is
+     * Returns this Argument's value parsed as a Character. {@code null} is
      * returned if the raw string is not one character long.
      *
-     * @return this StringWrapper's value parsed as a Character
+     * @return this Argument's value parsed as a Character
      */
     public Character asChar() {
         return raw.length() == 1 ? raw.charAt(0) : null;
     }
 
     /**
-     * Checks whether this StringWrapper's value can be parsed as an integer.
+     * Checks whether this Argument's value can be parsed as an integer.
      *
-     * @return whether this StringWrapper's value can be parsed as an integer
+     * @return whether this Argument's value can be parsed as an integer
      */
     public boolean isInt() {
         try {
@@ -143,9 +143,9 @@ public class StringWrapper {
     }
 
     /**
-     * Checks whether this StringWrapper's value can be parsed as a double.
+     * Checks whether this Argument's value can be parsed as a double.
      *
-     * @return whether this StringWrapper's value can be parsed as a double
+     * @return whether this Argument's value can be parsed as a double
      */
     public boolean isDouble() {
         try {
@@ -157,9 +157,9 @@ public class StringWrapper {
     }
 
     /**
-     * Checks whether this StringWrapper's value can be parsed as a float.
+     * Checks whether this Argument's value can be parsed as a float.
      *
-     * @return whether this StringWrapper's value can be parsed as a float
+     * @return whether this Argument's value can be parsed as a float
      */
     public boolean isFloat() {
         try {
@@ -171,9 +171,9 @@ public class StringWrapper {
     }
 
     /**
-     * Checks whether this StringWrapper's value can be parsed as a long.
+     * Checks whether this Argument's value can be parsed as a long.
      *
-     * @return whether this StringWrapper's value can be parsed as a long
+     * @return whether this Argument's value can be parsed as a long
      */
     public boolean isLong() {
         try {
@@ -185,9 +185,9 @@ public class StringWrapper {
     }
 
     /**
-     * Checks whether this StringWrapper's value can be parsed as a short.
+     * Checks whether this Argument's value can be parsed as a short.
      *
-     * @return whether this StringWrapper's value can be parsed as a short
+     * @return whether this Argument's value can be parsed as a short
      */
     public boolean isShort() {
         try {
@@ -199,18 +199,18 @@ public class StringWrapper {
     }
 
     /**
-     * Checks whether this StringWrapper's value can be parsed as a boolean.
+     * Checks whether this Argument's value can be parsed as a boolean.
      *
-     * @return whether this StringWrapper's value can be parsed as a boolean
+     * @return whether this Argument's value can be parsed as a boolean
      */
     public boolean isBoolean() {
         return raw.equals("true") || raw.equals("false");
     }
 
     /**
-     * Checks whether this StringWrapper's value can be parsed as a char.
+     * Checks whether this Argument's value can be parsed as a char.
      *
-     * @return whether this StringWrapper's value can be parsed as a char
+     * @return whether this Argument's value can be parsed as a char
      */
     public boolean isChar() {
         return raw.length() == 1;
@@ -226,37 +226,46 @@ public class StringWrapper {
 
     /**
      * @param string the string to add to the end of the current string
-     * @return {@code new StringWrapper(raw.concat(string))}
+     * @return {@code new Argument(raw.concat(string))}
      * @see {@link String#concat(String)}
      */
-    public StringWrapper concat(String string) {
-        return new StringWrapper(raw.concat(string));
+    public Argument concat(String string) {
+        return new Argument(raw.concat(string));
     }
 
     /**
      * @param startIndex the start of the substring
      * @param endIndex the end of the substring
-     * @return {@code new StringWrapper(raw.substring(startIndex, endIndex))}
+     * @return {@code new Argument(raw.substring(startIndex, endIndex))}
      * @see {@link String#substring(int, int)}
      */
-    public StringWrapper substring(int startIndex, int endIndex) {
-        return new StringWrapper(raw.substring(startIndex, endIndex));
+    public Argument substring(int startIndex, int endIndex) {
+        return new Argument(raw.substring(startIndex, endIndex));
     }
 
     /**
-     * @return {@code new StringWrapper(raw.toLowerCase())}
+     * @param startIndex the start of the substring
+     * @return {@code new Argument(raw.substring(startIndex))}
+     * @see {@link String#substring(int)}
+     */
+    public Argument substring(int startIndex) {
+        return new Argument(raw.substring(startIndex));
+    }
+
+    /**
+     * @return {@code new Argument(raw.toLowerCase())}
      * @see {@link String#toLowerCase()}
      */
-    public StringWrapper toLowerCase() {
-        return new StringWrapper(raw.toLowerCase());
+    public Argument toLowerCase() {
+        return new Argument(raw.toLowerCase());
     }
 
     /**
-     * @return {@code new StringWrapper(raw.toUpperCase())}
+     * @return {@code new Argument(raw.toUpperCase())}
      * @see {@link String#toUpperCase()}
      */
-    public StringWrapper toUpperCase() {
-        return new StringWrapper(raw.toUpperCase());
+    public Argument toUpperCase() {
+        return new Argument(raw.toUpperCase());
     }
 
     /**
@@ -269,7 +278,7 @@ public class StringWrapper {
 
     @Override
     public boolean equals(Object other) {
-        return other instanceof StringWrapper && ((StringWrapper) other).raw
+        return other instanceof Argument && ((Argument) other).raw
                 .equals(raw);
     }
 

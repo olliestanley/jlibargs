@@ -23,12 +23,12 @@
  */
 package pw.ollie.args.params;
 
-import pw.ollie.args.StringWrapper;
+import pw.ollie.args.Argument;
 
 /**
- * An extension of {@link StringWrapper}, used for parameters.
+ * An extension of {@link Argument}, used for parameters.
  */
-public class Parameter extends StringWrapper {
+public class Parameter extends Argument {
     /**
      * The information (name, whether it is optional) for this parameter
      */

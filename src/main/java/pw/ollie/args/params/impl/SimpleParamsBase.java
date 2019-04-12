@@ -162,8 +162,6 @@ public final class SimpleParamsBase implements ParamsBase {
 
         while (curArg < args.length(false) && curParam < params.size()) {
             if (curFlag < requiredFlags.size()) {
-                // get through as many flags as possible in the same loop to
-                // be supah-efficient (yes I know the performance gain is tiny)
                 if (!args.hasValueFlag(requiredFlags.get(curFlag++).name)) {
                     // a required flag isn't present
                     valid = false;
@@ -171,7 +169,7 @@ public final class SimpleParamsBase implements ParamsBase {
             }
 
             ParamInfo info = params.get(curParam);
-            String val = process(info, args.getRaw(curArg, false));
+            String val = process(info, args.getString(curArg, false));
 
             map.put(info.getName(), new Parameter(val, info));
             curArg++;

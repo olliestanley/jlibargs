@@ -26,7 +26,6 @@ import org.junit.Test;
 
 import pw.ollie.args.Arguments;
 import pw.ollie.args.params.Params;
-import pw.ollie.args.params.impl.SimpleParams;
 import pw.ollie.args.params.impl.SimpleParamsBase;
 
 public class TestMain {
@@ -38,10 +37,10 @@ public class TestMain {
         Arguments args = new Arguments(
                 "subcommand", "-f", "value", "off", "on");
 
-        Assert.assertEquals("ARG: PARSE", args.getRaw(0), "subcommand");
-        Assert.assertEquals("ARG: PARSE", args.getRaw(0), args.get(0).get());
-        Assert.assertEquals("ARG: PARSE", args.getRaw(1, false), "off");
-        Assert.assertEquals("ARG: PARSE", args.getRaw(2, false), "on");
+        Assert.assertEquals("ARG: PARSE", args.getString(0), "subcommand");
+        Assert.assertEquals("ARG: PARSE", args.getString(0), args.get(0).get());
+        Assert.assertEquals("ARG: PARSE", args.getString(1, false), "off");
+        Assert.assertEquals("ARG: PARSE", args.getString(2, false), "on");
         Assert.assertEquals("ARG: FLAG", args.getValueFlag("f").getRawValue(), "value");
 
         // Test the ParamsBase class
@@ -57,8 +56,8 @@ public class TestMain {
         // Test the Params class
         Params params = args.withParams(paramsBase.createParams(args))
                 .getParams();
-        Assert.assertEquals("PAR: LKUP", params.get("option1").get().get(), "off");
-        Assert.assertEquals("PAR: LKUP", params.get("optional").get().get(), "on");
+        Assert.assertEquals("PAR: LKUP", params.get("option1").get(), "off");
+        Assert.assertEquals("PAR: LKUP", params.get("optional").get(), "on");
         Assert.assertTrue("PAR: INV", params.valid());
 
         // Test number two
@@ -66,10 +65,10 @@ public class TestMain {
         // Test the Arguments class
         Arguments args1 = new Arguments("subcommand", "off", "on");
 
-        Assert.assertEquals("ARG1: PARSE", args1.getRaw(0), "subcommand");
-        Assert.assertEquals("ARG1: PARSE", args1.getRaw(0), args.get(0).get());
-        Assert.assertEquals("ARG1: PARSE", args1.getRaw(1, false), "off");
-        Assert.assertEquals("ARG1: PARSE", args1.getRaw(2, false), "on");
+        Assert.assertEquals("ARG1: PARSE", args1.getString(0), "subcommand");
+        Assert.assertEquals("ARG1: PARSE", args1.getString(0), args.get(0).get());
+        Assert.assertEquals("ARG1: PARSE", args1.getString(1, false), "off");
+        Assert.assertEquals("ARG1: PARSE", args1.getString(2, false), "on");
 
         // Test the ParamsBase class
         SimpleParamsBase paramsBase1 = SimpleParamsBase.fromUsageString(
@@ -83,8 +82,8 @@ public class TestMain {
         // Test the Params class
         Params params1 = args1.withParams(paramsBase1.createParams(args1))
                 .getParams();
-        Assert.assertEquals("PAR1: LKUP", params1.get("option1").get().get(), "off");
-        Assert.assertEquals("PAR1: LKUP", params1.get("optional").get().get(), "on");
+        Assert.assertEquals("PAR1: LKUP", params1.get("option1").get(), "off");
+        Assert.assertEquals("PAR1: LKUP", params1.get("optional").get(), "on");
         Assert.assertTrue("PAR1: INV", !params1.valid());
     }
 }

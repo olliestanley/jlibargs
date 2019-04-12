@@ -39,14 +39,14 @@ import java.util.Set;
  */
 public class Arguments {
     /**
-     * A {@link List} of all of the arguments in {@link StringWrapper} form.
+     * A {@link List} of all of the arguments in {@link Argument} form.
      */
-    private final List<StringWrapper> all;
+    private final List<Argument> all;
     /**
      * A {@link List} of arguments, not including flag arguments, in {@link
-     * StringWrapper} form.
+     * Argument} form.
      */
-    private final List<StringWrapper> arguments;
+    private final List<Argument> arguments;
     /**
      * A {@link List} of all flags prefixed with -
      */
@@ -54,7 +54,7 @@ public class Arguments {
     /**
      * A {@link List} of all flags prefixed with --
      */
-    private final Set<StringWrapper> doubleFlags;
+    private final Set<Argument> doubleFlags;
     /**
      * The raw String[] of arguments for this Arguments object.
      */
@@ -69,7 +69,7 @@ public class Arguments {
 
     /**
      * Creates a new Arguments object and immediately parses the given String[]
-     * of arguments into {@link StringWrapper}s and {@link Flag}s.
+     * of arguments into {@link Argument}s and {@link Flag}s.
      *
      * @param parse the raw argument {@link String}s to parse
      */
@@ -81,43 +81,38 @@ public class Arguments {
         this.raw = parse;
 
         for (int i = 0; i < raw.length; i++) {
-            String arg = raw[i];
-            boolean isLastArg = i == raw.length - 1;
-            // construct a single StringWrapper for the arg
-            StringWrapper sw = new StringWrapper(arg);
+            String element = raw[i];
+            // construct a single Argument for the arg
+            Argument arg = new Argument(element);
 
             // add to the list of all arguments
-            all.add(sw);
+            all.add(arg);
 
-            boolean flag = arg.charAt(0) == '-';
-            if (!flag || arg.length() < 2) {
+            if (element.charAt(0) != '-' || element.length() < 2) {
                 // normal argument, or flag with no name (e.g, "-")
-                arguments.add(sw);
+                arguments.add(arg);
                 continue;
             }
 
-            boolean doubleFlag = arg.charAt(1) == '-';
-            if (doubleFlag && arg.length() < 3) {
-                // arg is "--" - no name given for flag
-                arguments.add(sw);
+            if (element.charAt(1) == '-') {
+                if (element.length() < 3) {
+                    // arg is "--" - no name given for flag
+                    arguments.add(arg);
+                } else {
+                    // double flag (--, no value)
+                    doubleFlags.add(arg.substring(2));
+                }
                 continue;
             }
 
-            // flag argument handling
-            if (doubleFlag) {
-                // double flag (--, no value)
-                doubleFlags.add(new StringWrapper(arg.substring(2)));
-                continue;
-            }
-
-            if (isLastArg) {
-                // single flag but no value given (this is the last arg)
-                arguments.add(sw);
+            if (i == raw.length - 1) {
+                // single flag but no value given (this is the last arg) so treat as a non-value flag
+                doubleFlags.add(arg.substring(1));
                 continue;
             }
 
             // single flag (-, value)
-            flags.add(new Flag(arg.substring(1), new StringWrapper(raw[++i])));
+            flags.add(new Flag(element.substring(1), new Argument(raw[++i])));
         }
     }
 
@@ -138,23 +133,23 @@ public class Arguments {
     }
 
     /**
-     * Gets the {@link StringWrapper} for the argument at the given index.
+     * Gets the {@link Argument} for the argument at the given index.
      *
      * @param index the index to get the argument from
-     * @return a StringWrapper object for the argument at the given index
+     * @return a Argument object for the argument at the given index
      */
-    public StringWrapper get(int index) {
+    public Argument get(int index) {
         return get(index, true);
     }
 
     /**
-     * Gets the {@link StringWrapper} for the argument at the given index.
+     * Gets the {@link Argument} for the argument at the given index.
      *
      * @param index the index to get the argument from
      * @param includeFlagArgs whether to include flag args in the index
-     * @return a StringWrapper object for the argument at the given index
+     * @return a Argument object for the argument at the given index
      */
-    public StringWrapper get(int index, boolean includeFlagArgs) {
+    public Argument get(int index, boolean includeFlagArgs) {
         if (includeFlagArgs) {
             return all.get(index);
         } else {
@@ -168,8 +163,8 @@ public class Arguments {
      * @param index the index to get the argument from
      * @return a raw String for the argument at the given index
      */
-    public String getRaw(int index) {
-        return getRaw(index, true);
+    public String getString(int index) {
+        return getString(index, true);
     }
 
     /**
@@ -179,7 +174,7 @@ public class Arguments {
      * @param includeFlagArgs whether to include flag args in the index
      * @return a raw String for the argument at the given index
      */
-    public String getRaw(int index, boolean includeFlagArgs) {
+    public String getString(int index, boolean includeFlagArgs) {
         return get(index, includeFlagArgs).get();
     }
 
@@ -215,7 +210,7 @@ public class Arguments {
         if (!hasParams()) {
             return null;
         }
-        return getParams().get(parameter).orElse(null);
+        return getParams().get(parameter);
     }
 
     /**
@@ -289,7 +284,7 @@ public class Arguments {
      *         name
      */
     public boolean hasNonValueFlag(String flag) {
-        for (StringWrapper f : doubleFlags) {
+        for (Argument f : doubleFlags) {
             if (f.get().equalsIgnoreCase(flag)) {
                 return true;
             }

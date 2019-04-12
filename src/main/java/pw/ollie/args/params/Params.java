@@ -26,7 +26,6 @@ package pw.ollie.args.params;
 import pw.ollie.args.Arguments;
 
 import java.util.Collection;
-import java.util.Optional;
 
 /**
  * Represents a map of named parameters to user-inputted values.
@@ -41,15 +40,14 @@ public interface Params {
     Arguments getArguments();
 
     /**
-     * Gets an {@link Optional} containing the {@link Parameter} value for the
-     * parameter with the given name - this should return {@link
-     * Optional#empty()} in the event of the given parameter name not having a
-     * specified value.
+     * Gets the {@link Parameter} value for the parameter with the given name -
+     * this should return {@code null} in the event of the given parameter name
+     * not having a specified value.
      *
      * @param name the name of the parameter to get the value for
-     * @return an {@link Optional} of the {@link Parameter} with the given name
+     * @return the {@link Parameter} with the given name
      */
-    Optional<Parameter> get(String name);
+    Parameter get(String name);
 
     /**
      * Returns whether the given parameter has a user-specified value in this

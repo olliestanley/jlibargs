@@ -30,7 +30,6 @@ import pw.ollie.args.params.Params;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -76,8 +75,8 @@ public final class SimpleParams implements Params {
     }
 
     @Override
-    public Optional<Parameter> get(String parameter) {
-        return Optional.ofNullable(params.get(parameter));
+    public Parameter get(String parameter) {
+        return params.get(parameter);
     }
 
     @Override
